@@ -1,21 +1,40 @@
 function calculateDowry() {
   let price = 100;
 
-  let education = parseFloat(document.getElementById('education').value);
-  let netWorth = parseFloat(document.getElementById('netWorth').value);
-  let caste = parseInt(document.getElementById('caste').value);
-  let age = parseFloat(document.querySelector('input[name="age"]:checked').value);
+  let edu = document.getElementById("education").value;
+  let money = document.getElementById("netWorth").value;
+  let cast = document.getElementById("caste").value;
 
-  let skills = document.querySelectorAll('.skill:checked');
-  let reputation = document.querySelectorAll('.reputation:checked');
+  let age = 0;
+  let ages = document.getElementsByName("age");
+  for (let i = 0; i < ages.length; i++) {
+    if (ages[i].checked) {
+      age = ages[i].value;
+    }
+  }
 
-  let skillSum = 0;
-  skills.forEach(skill => skillSum += parseInt(skill.value));
+  let skills = document.querySelectorAll(".skill");
+  let skillsBonus = 0;
+  for (let i = 0; i < skills.length; i++) {
+    if (skills[i].checked) {
+      skillsBonus += parseFloat(skills[i].value);
+    }
+  }
 
-  let reputationSum = 0;
-  reputation.forEach(rep => reputationSum += parseFloat(rep.value));
+  let rep = document.querySelectorAll(".reputation");
+  let reputationBonus = 0;
+  for (let i = 0; i < rep.length; i++) {
+    if (rep[i].checked) {
+      reputationBonus += parseFloat(rep[i].value);
+    }
+  }
 
-  price = price * education * netWorth * age + caste + skillSum + reputationSum;
+  price *= parseFloat(edu);
+  price *= parseFloat(money);
+  price += parseFloat(cast);
+  price += skillsBonus;
+  price *= parseFloat(age);
+  price += reputationBonus;
 
-  document.getElementById('finalPrice').textContent = `$${price.toFixed(2)}`;
+  document.getElementById("finalPrice").innerText = "$" + price.toFixed(2);
 }
